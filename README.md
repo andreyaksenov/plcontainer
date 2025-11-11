@@ -28,10 +28,10 @@ cd plcontainer
 mkdir build
 ```
 
-To configure the build with the specific version of GPDB, either source the `greenplum_path.sh` first:
+To configure the build with the specific version of GPDB, either source the `greengage_path.sh` first:
 
 ```
-source /path/to/gpdb/greenplum_path.sh
+source /path/to/gpdb/greengage_path.sh
 cd build
 cmake ..
 ```

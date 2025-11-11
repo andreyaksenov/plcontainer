@@ -48,7 +48,7 @@ try:
     from gppylib import gparray
     from gppylib import userinput
 except ImportError as e:
-    sys.exit('ERROR: Cannot import Greenplum modules.  Please check that you have sourced greenplum_path.sh.  Detail: ' + str(e))
+    sys.exit('ERROR: Cannot import Greenplum modules.  Please check that you have sourced greengage_path.sh.  Detail: ' + str(e))
 
 PLCONTAINER_CONFIG_FILE = 'plcontainer_configuration.xml'
 PLCONTAINER_GPDB_DIR = 'share/postgresql/plcontainer'
@@ -183,7 +183,7 @@ def distribute_clientdir(pool, dest, hosts):
     pool.check_results()
 
 def distribute_greenplum_path(pool, hosts):
-    pathfile = os.path.join(DBHOME, 'greenplum_path.sh')
+    pathfile = os.path.join(DBHOME, 'greengage_path.sh')
 
     for host in hosts:
         if not CheckRemoteDir(DBHOME, host).execute():
@@ -191,7 +191,7 @@ def distribute_greenplum_path(pool, hosts):
 
     for host in hosts:
         if not CheckRemoteFile(pathfile, host).execute():
-            cmd = Rsync('Distribute greenplum_path.sh.',
+            cmd = Rsync('Distribute greengage_path.sh.',
                         pathfile,
                         DBHOME,
                         None,

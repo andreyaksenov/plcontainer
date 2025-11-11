@@ -56,7 +56,7 @@
             <id>plc_python_remote</id>
             <image>pivotaldata/plcontainer_python_without_clients:0.1</image>
             <command>/clientdir/pyclient.sh</command>
-            <shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/>
+            <shared_directory access="ro" container="/clientdir" host="/usr/local/gpdb/bin/plcontainer_clients"/>
             <setting enable_network="yes"/>
             <setting role="gpadmin"/>
         </runtime>
@@ -75,7 +75,7 @@
         <id>plc_python_example2</id>
         <image>pivotaldata/plcontainer_python_without_clients:0.1</image>
         <command>/clientdir/pyclient.sh</command>
-        <shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/>
+        <shared_directory access="ro" container="/clientdir" host="/usr/local/gpdb/bin/plcontainer_clients"/>
         <setting memory_mb="512"/>
         <setting cpu_share="1024"/>
         <setting use_container_logging="yes"/>
@@ -85,7 +85,7 @@
         <id>plc_r_example</id>
         <image>pivotaldata/plcontainer_r_without_clients:0.2</image>
         <command>/clientdir/rclient.sh</command>
-        <shared_directory access="ro" container="/clientdir" host="/usr/local/greenplum-db/bin/plcontainer_clients"/>
+        <shared_directory access="ro" container="/clientdir" host="/usr/local/gpdb/bin/plcontainer_clients"/>
         <setting use_container_logging="yes"/>
    </runtime>
 

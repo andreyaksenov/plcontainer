@@ -70,7 +70,7 @@ if [ $# != 2 ]; then
     exit 1
 fi
 if [ -z "$GPHOME" ]; then
-    echo "Need to source greenplum_path.sh before running tests"
+    echo "Need to source greengage_path.sh before running tests"
     exit 1
 fi
 echo "Tests must run on master node"
