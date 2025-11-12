@@ -32,7 +32,7 @@
 static char *plc_docker_socket = "/var/run/docker.sock";
 
 // URL prefix specifies Docker API version
-static char *plc_docker_version_127 = "v1.27";
+static char *plc_docker_version_144 = "v1.44";
 // GPU basic support after moby v19.03 (2019-7) API version v1.40
 // GPU with out privilege support when using NVIDIA/libnvidia-container v1.10 (2020.5) with API version v1.40
 // need to use NVIDIA/libnvidia-container to enable non-privilege container
@@ -466,7 +466,7 @@ int plc_docker_create_container(
 
 	// to use devicerequests, need docker api version >= 1.40.
 	// resolve version dynamically to compatible with old docker install
-	const char* version_prefix = conf->devicerequests == NULL ? plc_docker_version_127 : plc_docker_version_140;
+	const char* version_prefix = conf->devicerequests == NULL ? plc_docker_version_144 : plc_docker_version_140;
 
 	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, version_prefix, "/containers/create", messageBody);
 
@@ -542,7 +542,7 @@ int plc_docker_start_container(
 	url = palloc(strlen(method) + strlen(connection->identity) + 2);
 	sprintf(url, method, connection->identity);
 
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_144, url, NULL);
 
 	if (response->status != 204 && response->status != 304) {
 		backend_log(DEBUG1, "start docker container %s failed with errno %d.", connection->identity, res);
@@ -595,7 +595,7 @@ int plc_docker_kill_container(
 	url = palloc(strlen(method) + strlen(connection->identity) + 2);
 	sprintf(url, method, connection->identity);
 
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_144, url, NULL);
 	res = response->status;
 
 	plcCurlBufferFree(response);
@@ -619,7 +619,7 @@ int plc_docker_inspect_container(
 	url = palloc(strlen(method) + strlen(connection->identity) + 2);
 	sprintf(url, method, connection->identity);
 
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_144, url, NULL);
 	res = response->status;
 
 	/* We will need to handle the "no such container" case specially. */
@@ -665,7 +665,7 @@ int plc_docker_wait_container(
 	url = palloc(strlen(method) + strlen(connection->identity) + 2);
 	sprintf(url, method, connection->identity);
 
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_POST, plc_docker_version_144, url, NULL);
 	res = response->status;
 
 	plcCurlBufferFree(response);
@@ -687,7 +687,7 @@ int plc_docker_delete_container(
 	url = palloc(strlen(method) + strlen(connection->identity) + 2);
 	sprintf(url, method, connection->identity);
 
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_DELETE, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_DELETE, plc_docker_version_144, url, NULL);
 	res = response->status;
 
 	/* 204 = deleted success, 404 = container not found, both are OK for delete */
@@ -715,7 +715,7 @@ int plc_docker_list_container(char **result, int dbid, const plcBackend* backend
 
 	body = (char *) palloc((strlen(param) + 12) * sizeof(char));
 	sprintf(body, param, dbid);
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_127, url, body);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_144, url, body);
 	res = response->status;
 
 	if (res == 200) {
@@ -743,7 +743,7 @@ int plc_docker_get_container_state(char **result, const char *name, const plcBac
 	url = palloc(strlen(method) + strlen(name) + 2);
 	sprintf(url, method, name);
   
-	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_127, url, NULL);
+	response = plcCurlRESTAPICall(backend, PLC_HTTP_GET, plc_docker_version_144, url, NULL);
 
 	/* FIXME: Mixing return value of curl and HTTP status code is confusing and might cause issues. */
 	res = response->status;
