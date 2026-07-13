@@ -616,7 +616,7 @@ static int handle_retset(SEXP retval, plcRFunction *r_func, plcMsgResult *res) {
 	 */
 	if (isMatrix(retval) || (IS_CHARACTER(retval) && getAttrib(retval, R_DimSymbol) != R_NilValue)) {
 		handle_matrix_set(retval, r_func, res);
-	} else if (isFrame(retval)) {
+	} else if (inherits(retval, "data.frame")) {
 		handle_frame(retval, r_func, res);
 	} else {
 		res->rows = length(retval);

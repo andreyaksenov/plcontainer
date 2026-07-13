@@ -302,7 +302,7 @@ static SEXP plc_r_object_from_udt_ptr(char *input, plcRType *type) {
 
 static SEXP plc_r_object_from_bytea(char *input, plcRType *type UNUSED) {
 	SEXP result;
-	SEXP s, t, obj;
+	SEXP s, obj;
 	int status;
 	int bsize;
 
@@ -314,11 +314,7 @@ static SEXP plc_r_object_from_bytea(char *input, plcRType *type UNUSED) {
 	 * Need to construct a call to
 	 * unserialize(rval)
 	 */
-	PROTECT(t = s = allocList(2));
-	SET_TYPEOF(s, LANGSXP);
-	SETCAR(t, install("unserialize"));
-	t = CDR(t);
-	SETCAR(t, obj);
+	PROTECT(s = lang2(install("unserialize"), obj));
 
 	PROTECT(result = R_tryEval(s, R_GlobalEnv, &status));
 	if (status != 0) {
@@ -892,7 +888,7 @@ static int plc_r_object_as_udt(SEXP input, char **output, plcRType *type) {
 
 static int plc_r_object_as_bytea(SEXP input, char **output, plcRType *type UNUSED) {
 	SEXP obj;
-	SEXP s, t;
+	SEXP s;
 	int len, status;
 	char *result;
 
@@ -900,13 +896,7 @@ static int plc_r_object_as_bytea(SEXP input, char **output, plcRType *type UNUSE
 	 * Need to construct a call to
 	 * serialize(rval, NULL)
 	 */
-	PROTECT(t = s = allocList(3));
-	SET_TYPEOF(s, LANGSXP);
-	SETCAR(t, install("serialize"));
-	t = CDR(t);
-	SETCAR(t, input);
-	t = CDR(t);
-	SETCAR(t, R_NilValue);
+	PROTECT(s = lang3(install("serialize"), input, R_NilValue));
 
 	PROTECT(obj = R_tryEval(s, R_GlobalEnv, &status));
 	if (status != 0) {

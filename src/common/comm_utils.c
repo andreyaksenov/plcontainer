@@ -98,7 +98,8 @@ static void set_signal_handler(int signo, int sigflags, signal_handler func) {
 	return;
 }
 
-static void sigsegv_handler() {
+static void sigsegv_handler(int signo) {
+	(void) signo;
 #ifdef __GLIBC__
 	void *stack[64];
 	int size;
